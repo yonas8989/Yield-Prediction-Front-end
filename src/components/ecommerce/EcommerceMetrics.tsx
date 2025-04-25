@@ -21,7 +21,7 @@ export default function EcommerceMetrics() {
               Customers
             </span>
             <h4 className="mt-2 font-bold text-gray-800 text-title-sm dark:text-white/90">
-              3,782
+              3,787
             </h4>
           </div>
           <Badge color="success">

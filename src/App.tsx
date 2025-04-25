@@ -11,13 +11,14 @@ import Avatars from "./pages/UiElements/Avatars";
 import Buttons from "./pages/UiElements/Buttons";
 import LineChart from "./pages/Charts/LineChart";
 import BarChart from "./pages/Charts/BarChart";
-import Calendar from "./pages/Calendar";
 import BasicTables from "./pages/Tables/BasicTables";
 import FormElements from "./pages/Forms/FormElements";
 import Blank from "./pages/Blank";
 import AppLayout from "./layout/AppLayout";
 import { ScrollToTop } from "./components/common/ScrollToTop";
 import Home from "./pages/Dashboard/Home";
+import PastPrediction from "./pages/YieldPrediction/PastPrediction";
+import FileInput from "./components/form/input/FileInput";
 
 export default function App() {
   return (
@@ -31,11 +32,12 @@ export default function App() {
 
             {/* Others Page */}
             <Route path="/profile" element={<UserProfiles />} />
-            <Route path="/calendar" element={<Calendar />} />
             <Route path="/blank" element={<Blank />} />
 
             {/* Forms */}
             <Route path="/form-elements" element={<FormElements />} />
+            <Route path="/past-predictions" element={<PastPrediction />} />
+            <Route path="/new-prediction" element={<PastPrediction />} />
 
             {/* Tables */}
             <Route path="/basic-tables" element={<BasicTables />} />
@@ -49,8 +51,13 @@ export default function App() {
             <Route path="/videos" element={<Videos />} />
 
             {/* Charts */}
-            <Route path="/line-chart" element={<LineChart />} />
-            <Route path="/bar-chart" element={<BarChart />} />
+            <Route path="/visual-insights" element={<LineChart />} />
+            <Route path="/compare-data" element={<BarChart />} />
+
+
+            {/* Data upload */}
+            <Route path="/upload-csv" element={<FileInput/>} />
+            <Route path="/manual-input" element={<FormElements />} />
           </Route>
 
           {/* Auth Layout */}
