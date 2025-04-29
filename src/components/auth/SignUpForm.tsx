@@ -60,7 +60,7 @@ export default function SignUpForm() {
 
       // Handle successful signup
       localStorage.setItem("tempUser", JSON.stringify(response.data.data.user));
-      navigate("/verify-account", {
+      navigate("/verify-otp", {
         state: {
           email: formData.email,
           phoneNumber: formData.phoneNumber
