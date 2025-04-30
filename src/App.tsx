@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import SignIn from "./pages/AuthPages/SignIn";
 import SignUp from "./pages/AuthPages/SignUp";
 import VerifyOtp from "./pages/AuthPages/VerifyOtp";
@@ -20,7 +20,7 @@ import { ScrollToTop } from "./components/common/ScrollToTop";
 import Home from "./pages/Dashboard/Home";
 import PastPrediction from "./pages/YieldPrediction/PastPrediction";
 import FileInput from "./components/form/input/FileInput";
-
+import ProtectedRoute from "./ProtectedRoute"; // Import the new component
 
 export default function App() {
   return (
@@ -28,8 +28,14 @@ export default function App() {
       <Router>
         <ScrollToTop />
         <Routes>
-          {/* Dashboard Layout */}
-          <Route element={<AppLayout />}>
+          {/* Public Routes */}
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/verify-otp" element={<VerifyOtp />} />
+
+          {/* Protected Routes */}
+          <Route element={<ProtectedRoute><AppLayout /> 
+          </ProtectedRoute>}>
             <Route index path="/" element={<Home />} />
 
             {/* Others Page */}
@@ -56,16 +62,10 @@ export default function App() {
             <Route path="/visual-insights" element={<LineChart />} />
             <Route path="/compare-data" element={<BarChart />} />
 
-
             {/* Data upload */}
-            <Route path="/upload-csv" element={<FileInput/>} />
+            <Route path="/upload-csv" element={<FileInput />} />
             <Route path="/manual-input" element={<FormElements />} />
           </Route>
-
-          {/* Auth Layout */}
-          <Route path="/signin" element={<SignIn />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/verify-otp" element={<VerifyOtp/>} />
 
           {/* Fallback Route */}
           <Route path="*" element={<NotFound />} />
