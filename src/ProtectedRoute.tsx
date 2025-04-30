@@ -1,6 +1,7 @@
+import { JSX } from 'react';
 import { Navigate } from 'react-router-dom';
 
-const ProtectedRoute = ({ children }: { children: JSx.Element }) => {
+const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   // Replace this with your actual authentication check
   const isAuthenticated = localStorage.getItem('token'); // or use context/state management
   
