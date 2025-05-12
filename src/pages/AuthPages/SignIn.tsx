@@ -6,8 +6,8 @@ export default function SignIn() {
   return (
     <>
       <PageMeta
-        title="React.js SignIn Dashboard | TailAdmin - Next.js Admin Dashboard Template"
-        description="This is React.js SignIn Tables Dashboard page for TailAdmin - React.js Tailwind CSS Admin Dashboard Template"
+        title="AgroTech – Smart Farming Tools, Crop Management & Agriculture Tips"
+        description="Explore expert farming techniques, crop management tools, and the latest agricultural innovations. Boost yields with sustainable practices, weather insights, and farm equipment guides."
       />
       <AuthLayout>
         <SignInForm />
