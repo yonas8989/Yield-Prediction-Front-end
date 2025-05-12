@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ChevronLeftIcon, EyeCloseIcon, EyeIcon } from "../../icons";
+import { EyeCloseIcon, EyeIcon } from "../../icons";
 import Label from "../form/Label";
 import Input from "../form/input/InputField";
-import Checkbox from "../form/input/Checkbox";
 import Button from "../ui/button/Button";
 import apiClient from "../../api/axiosConfig";
 
@@ -16,7 +15,7 @@ export default function SignUpForm() {
     email: "",
     phoneNumber: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -24,9 +23,9 @@ export default function SignUpForm() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -55,7 +54,7 @@ export default function SignUpForm() {
         email: formData.email,
         phoneNumber: formData.phoneNumber,
         password: formData.password,
-        confirmPassword: formData.confirmPassword
+        confirmPassword: formData.confirmPassword,
       });
 
       // Handle successful signup
@@ -63,13 +62,12 @@ export default function SignUpForm() {
       navigate("/verify-otp", {
         state: {
           email: formData.email,
-          phoneNumber: formData.phoneNumber
-        }
+          phoneNumber: formData.phoneNumber,
+        },
       });
-
     } catch (err: any) {
       let errorMessage = "Signup failed. Please try again.";
-      
+
       if (err.response) {
         if (err.response.status === 400) {
           errorMessage = err.response.data.message || "Validation error";
@@ -88,15 +86,6 @@ export default function SignUpForm() {
 
   return (
     <div className="flex flex-col flex-1 w-full overflow-y-auto lg:w-1/2 no-scrollbar">
-      <div className="w-full max-w-md mx-auto mb-5 sm:pt-10">
-        <Link
-          to="/"
-          className="inline-flex items-center text-sm text-gray-500 transition-colors hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
-        >
-          <ChevronLeftIcon className="size-5" />
-          Back to dashboard
-        </Link>
-      </div>
       <div className="flex flex-col justify-center flex-1 w-full max-w-md mx-auto">
         <div>
           <div className="mb-5 sm:mb-8">
@@ -107,7 +96,7 @@ export default function SignUpForm() {
               Create your account to get started!
             </p>
           </div>
-          
+
           {error && (
             <div className="p-3 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-900 dark:text-red-100">
               {error}
@@ -119,13 +108,8 @@ export default function SignUpForm() {
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-t border-gray-200 dark:border-gray-800"></div>
               </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="p-2 text-gray-400 bg-white dark:bg-gray-900 sm:px-5 sm:py-2">
-                  Create account with credentials
-                </span>
-              </div>
             </div>
-            
+
             <form onSubmit={handleSubmit}>
               <div className="space-y-5">
                 <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
@@ -139,7 +123,7 @@ export default function SignUpForm() {
                       value={formData.firstName}
                       onChange={handleChange}
                       placeholder="Enter your first name"
-                      required 
+                      required
                     />
                   </div>
                   <div className="sm:col-span-1">
@@ -156,7 +140,7 @@ export default function SignUpForm() {
                     />
                   </div>
                 </div>
-                
+
                 <div>
                   <Label>
                     Email<span className="text-error-500">*</span>
@@ -170,7 +154,7 @@ export default function SignUpForm() {
                     required
                   />
                 </div>
-                
+
                 <div>
                   <Label>
                     Phone Number<span className="text-error-500">*</span>
@@ -184,7 +168,7 @@ export default function SignUpForm() {
                     required
                   />
                 </div>
-                
+
                 <div>
                   <Label>
                     Password<span className="text-error-500">*</span>
@@ -210,7 +194,7 @@ export default function SignUpForm() {
                     </span>
                   </div>
                 </div>
-                
+
                 <div>
                   <Label>
                     Confirm Password<span className="text-error-500">*</span>
@@ -224,38 +208,9 @@ export default function SignUpForm() {
                     required
                   />
                 </div>
-                
-                <div className="flex items-start gap-3">
-                  <div className="mt-1">
-                    <Checkbox
-                      checked={isChecked}
-                      onChange={() => setIsChecked(!isChecked)}
-                    />
-                  </div>
-                  <p className="inline-block font-normal text-gray-500 dark:text-gray-400">
-                    By creating an account means you agree to the{" "}
-                    <Link 
-                      to="/terms" 
-                      className="text-brand-500 hover:text-brand-600 dark:text-brand-400"
-                    >
-                      Terms and Conditions
-                    </Link>
-                    , and our{" "}
-                    <Link 
-                      to="/privacy" 
-                      className="text-brand-500 hover:text-brand-600 dark:text-brand-400"
-                    >
-                      Privacy Policy
-                    </Link>
-                  </p>
-                </div>
-                
+
                 <div>
-                  <Button 
-                    className="w-full" 
-                    type="submit"
-                    disabled={loading}
-                  >
+                  <Button className="w-full" type="submit" disabled={loading}>
                     {loading ? "Creating account..." : "Sign Up"}
                   </Button>
                 </div>

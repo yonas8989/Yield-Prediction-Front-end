@@ -26,7 +26,7 @@ export default function AuthLayout({
                 />
               </Link>
               <p className="text-center text-gray-400 dark:text-white/60">
-                Free and Open-Source Tailwind CSS Admin Dashboard Template
+               Explore expert farming techniques, crop management tools, and the latest agricultural innovations. Boost yields with sustainable practices, weather insights, and farm equipment guides
               </p>
             </div>
           </div>
