@@ -8,7 +8,6 @@ import apiClient from "../../api/axiosConfig";
 
 export default function SignUpForm() {
   const [showPassword, setShowPassword] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -34,12 +33,7 @@ export default function SignUpForm() {
     setLoading(true);
     setError(null);
 
-    // Validation
-    if (!isChecked) {
-      setError("You must agree to the Terms and Conditions");
-      setLoading(false);
-      return;
-    }
+  
 
     if (formData.password !== formData.confirmPassword) {
       setError("Passwords do not match");
