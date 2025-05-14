@@ -1,10 +1,7 @@
 import { useState } from "react";
 import {
   GridIcon,
-  PieChartIcon,
-  TableIcon,
   CalenderIcon,
-  ChevronDownIcon,
 } from "../../icons";
 
 // Types

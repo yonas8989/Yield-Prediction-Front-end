@@ -1,6 +1,5 @@
 import Chart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
-import ChartTab from "../common/ChartTab";
 
 export default function StatisticsChart() {
   const options: ApexOptions = {
@@ -75,8 +74,6 @@ export default function StatisticsChart() {
         "2020",
         "2021",
         "2022",
-        "2023",
-        "2024",
       ],
       axisBorder: {
         show: false, // Hide x-axis border
@@ -96,7 +93,7 @@ export default function StatisticsChart() {
         },
       },
       title: {
-        text: "Precipitation (mm) / Yield (tons/ha)", // Updated y-axis title
+        text: "Precipitation (mm) / Yield (tons/ha)", // Y-axis title
         style: {
           fontSize: "12px",
         },
@@ -108,15 +105,15 @@ export default function StatisticsChart() {
     {
       name: "Precipitation",
       data: [
-        947, 1146.1, 911.7, 929.4, 960.8, 772.2, 790.2, 908.5, 968.3,
-        1205.4, 1403.8, 1625.2, 642.5, 622, 1389.4, 649.18,
+        972.4, 1069.4, 1024.2, 1144.4, 960.7, 1235.8, 1002.3, 1090.3, 1382.2,
+        1268.1, 1292.8, 961.6355102041, 1404.8, 1236,
       ],
     },
     {
       name: "Yield",
       data: [
-        16.6, 19.57, 21.002, 19.872, 22.76, 23.858, 22.664, 29.14, 17.281,
-        22.142, 17.608, 19.346, 24.806, 30.42, 18.946, 25.676,
+        12.365, 16.34, 18.315, 22.256, 19.01, 21.685, 22.155, 22.08, 25.93,
+        25.33, 25.97, 21.9618045113, 18.946, 23.245,
       ],
     },
   ];
@@ -129,11 +126,8 @@ export default function StatisticsChart() {
             Weather and Yield Statistics
           </h3>
           <p className="mt-1 text-gray-500 text-theme-sm dark:text-gray-400">
-            Annual precipitation and crop yield for Addis Ababa Bole
+            Annual precipitation and crop yield for Gondar A.P.
           </p>
-        </div>
-        <div className="flex items-start w-full gap-3 sm:justify-end">
-          <ChartTab />
         </div>
       </div>
 

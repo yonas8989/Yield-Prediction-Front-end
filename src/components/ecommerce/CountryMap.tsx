@@ -21,8 +21,8 @@ const CountryMap: React.FC<CountryMapProps> = ({ mapColor }) => {
       markersSelectable={true}
       markers={[
         {
-          latLng: [37.2580397, -104.657039],
-          name: "United States",
+          latLng: [12.5986, 37.4510],
+          name: "Gonder",
           style: {
             fill: "#465FFF",
             borderWidth: 1,
@@ -31,13 +31,13 @@ const CountryMap: React.FC<CountryMapProps> = ({ mapColor }) => {
           },
         },
         {
-          latLng: [20.7504374, 73.7276105],
-          name: "India",
+          latLng: [9.0192, 38.7525],
+          name: "Addis Ababa",
           style: { fill: "#465FFF", borderWidth: 1, borderColor: "white" },
         },
         {
-          latLng: [53.613, -11.6368],
-          name: "United Kingdom",
+          latLng: [6.0350, 37.5573],
+          name: "Arba minchi",
           style: { fill: "#465FFF", borderWidth: 1, borderColor: "white" },
         },
         {

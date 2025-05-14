@@ -1,26 +1,25 @@
 import Chart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
-import ChartTab from "../common/ChartTab";
 
 export default function StatisticsChart() {
   const options: ApexOptions = {
     legend: {
-      show: false, // Hide legend
+      show: false,
       position: "top",
       horizontalAlign: "left",
     },
-    colors: ["#465FFF", "#9CB9FF"], // Define line colors
+    colors: ["#465FFF", "#9CB9FF"],
     chart: {
       fontFamily: "Outfit, sans-serif",
       height: 310,
-      type: "line", // Set the chart type to 'line'
+      type: "line",
       toolbar: {
-        show: false, // Hide chart toolbar
+        show: false,
       },
     },
     stroke: {
-      curve: "straight", // Define the line style (straight, smooth, or step)
-      width: [2, 2], // Line width for each dataset
+      curve: "straight",
+      width: [2, 2],
     },
     fill: {
       type: "gradient",
@@ -30,36 +29,36 @@ export default function StatisticsChart() {
       },
     },
     markers: {
-      size: 0, // Size of the marker points
-      strokeColors: "#fff", // Marker border color
+      size: 0,
+      strokeColors: "#fff",
       strokeWidth: 2,
       hover: {
-        size: 6, // Marker size on hover
+        size: 6,
       },
     },
     grid: {
       xaxis: {
         lines: {
-          show: false, // Hide grid lines on x-axis
+          show: false,
         },
       },
       yaxis: {
         lines: {
-          show: true, // Show grid lines on y-axis
+          show: true,
         },
       },
     },
     dataLabels: {
-      enabled: false, // Disable data labels
+      enabled: false,
     },
     tooltip: {
-      enabled: true, // Enable tooltip
+      enabled: true,
       x: {
-        format: "yyyy", // Format for x-axis tooltip (year)
+        format: "yyyy",
       },
     },
     xaxis: {
-      type: "category", // Category-based x-axis
+      type: "category",
       categories: [
         "2009",
         "2010",
@@ -75,28 +74,26 @@ export default function StatisticsChart() {
         "2020",
         "2021",
         "2022",
-        "2023",
-        "2024",
       ],
       axisBorder: {
-        show: false, // Hide x-axis border
+        show: false,
       },
       axisTicks: {
-        show: false, // Hide x-axis ticks
+        show: false,
       },
       tooltip: {
-        enabled: false, // Disable tooltip for x-axis points
+        enabled: false,
       },
     },
     yaxis: {
       labels: {
         style: {
-          fontSize: "12px", // Adjust font size for y-axis labels
-          colors: ["#6B7280"], // Color of the labels
+          fontSize: "12px",
+          colors: ["#6B7280"],
         },
       },
       title: {
-        text: "Precipitation (mm) / Yield (tons/ha)", // Updated y-axis title
+        text: "Precipitation (mm) / Yield (tons/ha)",
         style: {
           fontSize: "12px",
         },
@@ -108,15 +105,15 @@ export default function StatisticsChart() {
     {
       name: "Precipitation",
       data: [
-        947, 1146.1, 911.7, 929.4, 960.8, 772.2, 790.2, 908.5, 968.3,
-        1205.4, 1403.8, 1625.2, 642.5, 622, 1389.4, 649.18,
+        1236.7, 1396.5, 1483.8, 1272.5, 1227.3, 1337.1, 1059.4, 1166.9, 1437.1,
+        1330.4, 1669.6, 17.2, 1454.4, 1343.7,
       ],
     },
     {
       name: "Yield",
       data: [
-        16.6, 19.57, 21.002, 19.872, 22.76, 23.858, 22.664, 29.14, 17.281,
-        22.142, 17.608, 19.346, 24.806, 30.42, 18.946, 25.676,
+        19.77, 16.34, 16.95, 21.039, 18.64, 21.039, 23.68, 24.71, 16.722,
+        25.33, 25.97, 26.058, 16.722, 31.84,
       ],
     },
   ];
@@ -129,14 +126,10 @@ export default function StatisticsChart() {
             Weather and Yield Statistics
           </h3>
           <p className="mt-1 text-gray-500 text-theme-sm dark:text-gray-400">
-            Annual precipitation and crop yield for Addis Ababa Bole
+            Annual precipitation and crop yield for Debre Markos
           </p>
         </div>
-        <div className="flex items-start w-full gap-3 sm:justify-end">
-          <ChartTab />
-        </div>
       </div>
-
       <div className="max-w-full overflow-x-auto custom-scrollbar">
         <div className="min-w-[1000px] xl:min-w-full">
           <Chart options={options} series={series} type="area" height={310} />
