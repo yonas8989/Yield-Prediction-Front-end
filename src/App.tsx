@@ -20,7 +20,9 @@ import { ScrollToTop } from "./components/common/ScrollToTop";
 import Home from "./pages/Dashboard/Home";
 import PastPrediction from "./pages/YieldPrediction/PastPrediction";
 import FileInput from "./components/form/input/FileInput";
-import ProtectedRoute from "./ProtectedRoute"; // Import the new component
+import ProtectedRoute from "./ProtectedRoute";
+import NewPrediction from "./pages/YieldPrediction/NewPrediction";
+import PredictionDetail from "./pages/YieldPrediction/PredictionDetail";
 
 export default function App() {
   return (
@@ -34,8 +36,7 @@ export default function App() {
           <Route path="/verify-otp" element={<VerifyOtp />} />
 
           {/* Protected Routes */}
-          <Route element={<ProtectedRoute><AppLayout /> 
-          </ProtectedRoute>}>
+          <Route element={<ProtectedRoute><AppLayout /></ProtectedRoute>}>
             <Route index path="/" element={<Home />} />
 
             {/* Others Page */}
@@ -45,7 +46,8 @@ export default function App() {
             {/* Forms */}
             <Route path="/form-elements" element={<FormElements />} />
             <Route path="/past-predictions" element={<PastPrediction />} />
-            <Route path="/new-prediction" element={<PastPrediction />} />
+            <Route path="/new-prediction" element={<NewPrediction />} />
+            <Route path="/predictions/:id" element={<PredictionDetail />} />
 
             {/* Tables */}
             <Route path="/basic-tables" element={<BasicTables />} />
