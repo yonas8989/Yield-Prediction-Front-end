@@ -3,31 +3,51 @@ import { useNavigate } from "react-router-dom";
 import apiClient from "../../api/axiosConfig";
 
 // Types
-type WeatherConditions = {
-  temperatureMax: string;
+type PredictionInput = {
+  name: string;
+  elevation: string;
+  year: string;
+  precipitation: string;
+  relativeHumidity: string;
+  sunshineHours: string;
   temperatureMin: string;
-  humidity: string;
+  temperatureMax: string;
   windSpeed: string;
 };
 
-type PredictionInput = {
-  cropType: string;
-  fieldSize: string;
-  soilType: string;
-  weatherConditions: WeatherConditions;
-};
+// Unique location names from the Excel data
+const locationNames = [
+  "Addis Ababa Bole",
+  "Arba Minch",
+  "Awassa",
+  "Axum Air Port",
+  "Bahir Dar New",
+  "Combolcha",
+  "Debre Markos",
+  "Debre Zeit (AF)",
+  "Dire Dawa",
+  "Gode Met",
+  "Gondar A.P.",
+  "Gore",
+  "Jimma",
+  "Mekele Air Port Obse",
+  "Metehara (NMSA)",
+  "Neghele",
+  "Nekemte",
+  "Robe",
+];
 
 const NewPrediction = () => {
   const [newPrediction, setNewPrediction] = useState<PredictionInput>({
-    cropType: "",
-    fieldSize: "",
-    soilType: "",
-    weatherConditions: {
-      temperatureMax: "",
-      temperatureMin: "",
-      humidity: "",
-      windSpeed: "",
-    },
+    name: "",
+    elevation: "",
+    year: "",
+    precipitation: "",
+    relativeHumidity: "",
+    sunshineHours: "",
+    temperatureMin: "",
+    temperatureMax: "",
+    windSpeed: "",
   });
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -42,28 +62,38 @@ const NewPrediction = () => {
 
     // Prepare payload
     const payload = {
-      cropType: newPrediction.cropType,
-      fieldSize: parseFloat(newPrediction.fieldSize),
-      soilType: newPrediction.soilType,
-      weatherConditions: {
-        temperatureMax: parseFloat(newPrediction.weatherConditions.temperatureMax),
-        temperatureMin: parseFloat(newPrediction.weatherConditions.temperatureMin),
-        humidity: parseFloat(newPrediction.weatherConditions.humidity),
-        windSpeed: parseFloat(newPrediction.weatherConditions.windSpeed),
-      },
+      name: newPrediction.name,
+      elevation: parseFloat(newPrediction.elevation),
+      year: parseInt(newPrediction.year),
+      precipitation: parseFloat(newPrediction.precipitation),
+      relativeHumidity: parseFloat(newPrediction.relativeHumidity),
+      sunshineHours: parseFloat(newPrediction.sunshineHours),
+      temperatureMin: parseFloat(newPrediction.temperatureMin),
+      temperatureMax: parseFloat(newPrediction.temperatureMax),
+      windSpeed: parseFloat(newPrediction.windSpeed),
     };
 
     // Validate payload
     if (
-      !payload.cropType ||
-      isNaN(payload.fieldSize) ||
-      !payload.soilType ||
-      isNaN(payload.weatherConditions.temperatureMax) ||
-      isNaN(payload.weatherConditions.temperatureMin) ||
-      isNaN(payload.weatherConditions.humidity) ||
-      isNaN(payload.weatherConditions.windSpeed)
+      !payload.name ||
+      isNaN(payload.elevation) ||
+      isNaN(payload.year) ||
+      isNaN(payload.precipitation) ||
+      isNaN(payload.relativeHumidity) ||
+      isNaN(payload.sunshineHours) ||
+      isNaN(payload.temperatureMin) ||
+      isNaN(payload.temperatureMax) ||
+      isNaN(payload.windSpeed) ||
+      payload.relativeHumidity < 0 ||
+      payload.relativeHumidity > 100 ||
+      payload.precipitation < 0 ||
+      payload.sunshineHours < 0 ||
+      payload.windSpeed < 0 ||
+      payload.year < 1900
     ) {
-      setError("Please fill in all fields with valid numbers.");
+      setError(
+        "Please fill in all fields with valid values. Ensure numbers are valid, humidity is 0-100%, and year is at least 1900."
+      );
       setIsSubmitting(false);
       return;
     }
@@ -97,15 +127,15 @@ const NewPrediction = () => {
 
       // Reset form
       setNewPrediction({
-        cropType: "",
-        fieldSize: "",
-        soilType: "",
-        weatherConditions: {
-          temperatureMax: "",
-          temperatureMin: "",
-          humidity: "",
-          windSpeed: "",
-        },
+        name: "",
+        elevation: "",
+        year: "",
+        precipitation: "",
+        relativeHumidity: "",
+        sunshineHours: "",
+        temperatureMin: "",
+        temperatureMax: "",
+        windSpeed: "",
       });
 
       // Redirect to /past-predictions after 2 seconds
@@ -127,128 +157,135 @@ const NewPrediction = () => {
   };
 
   return (
-    <div className="p-6">
+    <div className="p-6 bg-[#dad7cd]">
       <div className="bg-white rounded-lg shadow-md p-6">
-        <h2 className="text-xl font-semibold mb-4">🎯 New Prediction</h2>
+        <h2 className="text-xl font-semibold mb-4 text-[#344e41]">🎯 New Prediction</h2>
         {error && (
           <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-lg">
             {error}
           </div>
         )}
         {successMessage && (
-          <div className="mb-4 p-3 bg-green-100 text-green-700 rounded-lg">
+          <div className="mb-4 p-3 bg-[#a3b18a] text-[#344e41] rounded-lg">
             {successMessage}
           </div>
         )}
         <form onSubmit={handleNewPredictionSubmit} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700">Crop Type</label>
+              <label className="block text-sm font-medium text-[#344e41]">Location Name</label>
               <select
-                value={newPrediction.cropType}
-                onChange={(e) => setNewPrediction({ ...newPrediction, cropType: e.target.value })}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500"
+                value={newPrediction.name}
+                onChange={(e) => setNewPrediction({ ...newPrediction, name: e.target.value })}
+                className="mt-1 block w-full rounded-md border-[#a3b18a] shadow-sm focus:border-[#588157] focus:ring-[#588157]"
                 required
                 disabled={isSubmitting}
               >
-                <option value="">Select Crop</option>
-                <option value="Wheat">Wheat</option>
-                <option value="Rice">Rice</option>
-                <option value="Corn">Corn</option>
+                <option value="">Select Location</option>
+                {locationNames.map((name) => (
+                  <option key={name} value={name}>
+                    {name}
+                  </option>
+                ))}
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">Field Size (ha)</label>
+              <label className="block text-sm font-medium text-[#344e41]">Elevation (m)</label>
               <input
                 type="number"
-                step="0.1"
                 min="0"
-                value={newPrediction.fieldSize}
-                onChange={(e) => setNewPrediction({ ...newPrediction, fieldSize: e.target.value })}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500"
+                value={newPrediction.elevation}
+                onChange={(e) => setNewPrediction({ ...newPrediction, elevation: e.target.value })}
+                className="mt-1 block w-full rounded-md border-[#a3b18a] shadow-sm focus:border-[#588157] focus:ring-[#588157]"
                 required
                 disabled={isSubmitting}
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">Soil Type</label>
-              <select
-                value={newPrediction.soilType}
-                onChange={(e) => setNewPrediction({ ...newPrediction, soilType: e.target.value })}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500"
-                required
-                disabled={isSubmitting}
-              >
-                <option value="">Select Soil Type</option>
-                <option value="Loam">Loam</option>
-                <option value="Clay">Clay</option>
-                <option value="Sandy">Sandy</option>
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Max Temperature (°C)</label>
+              <label className="block text-sm font-medium text-[#344e41]">Year</label>
               <input
                 type="number"
-                value={newPrediction.weatherConditions.temperatureMax}
-                onChange={(e) =>
-                  setNewPrediction({
-                    ...newPrediction,
-                    weatherConditions: { ...newPrediction.weatherConditions, temperatureMax: e.target.value },
-                  })
-                }
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500"
+                min="1900"
+                value={newPrediction.year}
+                onChange={(e) => setNewPrediction({ ...newPrediction, year: e.target.value })}
+                className="mt-1 block w-full rounded-md border-[#a3b18a] shadow-sm focus:border-[#588157] focus:ring-[#588157]"
                 required
                 disabled={isSubmitting}
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">Min Temperature (°C)</label>
+              <label className="block text-sm font-medium text-[#344e41]">Precipitation (mm)</label>
               <input
                 type="number"
-                value={newPrediction.weatherConditions.temperatureMin}
-                onChange={(e) =>
-                  setNewPrediction({
-                    ...newPrediction,
-                    weatherConditions: { ...newPrediction.weatherConditions, temperatureMin: e.target.value },
-                  })
-                }
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500"
+                min="0"
+                step="0.1"
+                value={newPrediction.precipitation}
+                onChange={(e) => setNewPrediction({ ...newPrediction, precipitation: e.target.value })}
+                className="mt-1 block w-full rounded-md border-[#a3b18a] shadow-sm focus:border-[#588157] focus:ring-[#588157]"
                 required
                 disabled={isSubmitting}
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">Humidity (%)</label>
+              <label className="block text-sm font-medium text-[#344e41]">Relative Humidity (%)</label>
               <input
                 type="number"
                 min="0"
                 max="100"
-                value={newPrediction.weatherConditions.humidity}
-                onChange={(e) =>
-                  setNewPrediction({
-                    ...newPrediction,
-                    weatherConditions: { ...newPrediction.weatherConditions, humidity: e.target.value },
-                  })
-                }
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500"
+                step="0.1"
+                value={newPrediction.relativeHumidity}
+                onChange={(e) => setNewPrediction({ ...newPrediction, relativeHumidity: e.target.value })}
+                className="mt-1 block w-full rounded-md border-[#a3b18a] shadow-sm focus:border-[#588157] focus:ring-[#588157]"
                 required
                 disabled={isSubmitting}
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">Wind Speed (km/h)</label>
+              <label className="block text-sm font-medium text-[#344e41]">Sunshine Hours (hrs)</label>
+              <input
+                type="number"
+                min="0"
+                step="0.1"
+                value={newPrediction.sunshineHours}
+                onChange={(e) => setNewPrediction({ ...newPrediction, sunshineHours: e.target.value })}
+                className="mt-1 block w-full rounded-md border-[#a3b18a] shadow-sm focus:border-[#588157] focus:ring-[#588157]"
+                required
+                disabled={isSubmitting}
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-[#344e41]">Min Temperature (°C)</label>
               <input
                 type="number"
                 step="0.1"
+                value={newPrediction.temperatureMin}
+                onChange={(e) => setNewPrediction({ ...newPrediction, temperatureMin: e.target.value })}
+                className="mt-1 block w-full rounded-md border-[#a3b18a] shadow-sm focus:border-[#588157] focus:ring-[#588157]"
+                required
+                disabled={isSubmitting}
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-[#344e41]">Max Temperature (°C)</label>
+              <input
+                type="number"
+                step="0.1"
+                value={newPrediction.temperatureMax}
+                onChange={(e) => setNewPrediction({ ...newPrediction, temperatureMax: e.target.value })}
+                className="mt-1 block w-full rounded-md border-[#a3b18a] shadow-sm focus:border-[#588157] focus:ring-[#588157]"
+                required
+                disabled={isSubmitting}
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-[#344e41]">Wind Speed (km/h)</label>
+              <input
+                type="number"
                 min="0"
-                value={newPrediction.weatherConditions.windSpeed}
-                onChange={(e) =>
-                  setNewPrediction({
-                    ...newPrediction,
-                    weatherConditions: { ...newPrediction.weatherConditions, windSpeed: e.target.value },
-                  })
-                }
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500"
+                step="0.1"
+                value={newPrediction.windSpeed}
+                onChange={(e) => setNewPrediction({ ...newPrediction, windSpeed: e.target.value })}
+                className="mt-1 block w-full rounded-md border-[#a3b18a] shadow-sm focus:border-[#588157] focus:ring-[#588157]"
                 required
                 disabled={isSubmitting}
               />
@@ -257,7 +294,7 @@ const NewPrediction = () => {
           <div className="flex justify-end">
             <button
               type="submit"
-              className={`bg-brand-500 text-white px-6 py-2 rounded-lg hover:bg-brand-600 transition-colors ${
+              className={`bg-[#3a5a40] text-white px-6 py-2 rounded-lg hover:bg-[#344e41] transition-colors ${
                 isSubmitting ? "opacity-50 cursor-not-allowed" : ""
               }`}
               disabled={isSubmitting}

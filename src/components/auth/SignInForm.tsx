@@ -47,15 +47,8 @@ export default function SignInForm() {
       // Handle successful login
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("user", JSON.stringify(response.data.data.user));
-      
-      // Redirect based on user role
-      const userRole = response.data.data.user.role;
-      if (userRole === "Admin") {
-        navigate("/");
-      } else {
-        navigate("/profile");
-      }
-
+      navigate("/");
+    
     } catch (err: any) {
       let errorMessage = "Login failed. Please try again.";
       
