@@ -50,7 +50,6 @@ const navItems: NavItem[] = [
     name: "Data Upload",
     subItems: [
       { name: "Upload CSV", path: "/upload-csv", pro: false },
-      { name: "Manual Input", path: "/manual-input", pro: false }
     ],
   }
 ];

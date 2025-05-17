@@ -1,11 +1,25 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { DropdownItem } from "../ui/dropdown/DropdownItem";
 import { Dropdown } from "../ui/dropdown/Dropdown";
-import { Link, useNavigate } from "react-router-dom"; // Fixed import and added useNavigate
+import { Link, useNavigate } from "react-router-dom";
+import { IUserDocument } from "../../types/user";
 
 export default function UserDropdown() {
   const [isOpen, setIsOpen] = useState(false);
+  const [user, setUser] = useState<IUserDocument | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+
+  // Fetch user data from localStorage
+  useEffect(() => {
+    const userData = localStorage.getItem("user");
+    if (userData) {
+      const parsedUser = JSON.parse(userData);
+      setUser(parsedUser);
+    } else {
+      setError("No user data found. Please log in.");
+    }
+  }, []);
 
   function toggleDropdown() {
     setIsOpen(!isOpen);
@@ -15,31 +29,39 @@ export default function UserDropdown() {
     setIsOpen(false);
   }
 
-  // Sign out function - added this new function
   function handleSignOut() {
-    // Remove token from storage
-    localStorage.removeItem('token');
-    // Optional: Clear other user data if needed
-    localStorage.removeItem('user');
-    // Redirect to sign in page
-    navigate('/signin');
-    // Close dropdown
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    navigate("/signin");
     closeDropdown();
   }
 
   return (
     <div className="relative">
+      {error && (
+        <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-lg">
+          {error}
+        </div>
+      )}
       <button
         onClick={toggleDropdown}
-        className="flex items-center text-gray-700 dropdown-toggle dark:text-gray-400"
+        className="flex items-center text-[#344e41]"
+        aria-haspopup="true"
+        aria-expanded={isOpen}
+        aria-label="User menu"
       >
-        <span className="mr-3 overflow-hidden rounded-full h-11 w-11">
-          <img src="/images/user/owner.jpg" alt="User" />
+        <span className="mr-3 overflow-hidden rounded-full h-11 w-11 border border-[#a3b18a]">
+          <img
+            src={user?.profilePicture || "/images/user/default.jpg"}
+            alt="User profile"
+            className="object-cover w-full h-full"
+          />
         </span>
-
-        <span className="block mr-1 font-medium text-theme-sm">logged user</span>
+        <span className="block mr-1 font-medium text-sm">
+          {user ? `${user.firstName} ${user.lastName}` : "Logged User"}
+        </span>
         <svg
-          className={`stroke-gray-500 dark:stroke-gray-400 transition-transform duration-200 ${
+          className={`stroke-[#344e41] transition-transform duration-200 ${
             isOpen ? "rotate-180" : ""
           }`}
           width="18"
@@ -61,27 +83,27 @@ export default function UserDropdown() {
       <Dropdown
         isOpen={isOpen}
         onClose={closeDropdown}
-        className="absolute right-0 mt-[17px] flex w-[260px] flex-col rounded-2xl border border-gray-200 bg-white p-3 shadow-theme-lg dark:border-gray-800 dark:bg-gray-dark"
+        className="absolute right-0 mt-4 w-[260px] flex flex-col rounded-2xl border border-[#a3b18a] bg-white p-3 shadow-lg"
       >
         <div>
-          <span className="block font-medium text-gray-700 text-theme-sm dark:text-gray-400">
-            Musharof Chowdhury
+          <span className="block font-medium text-[#344e41] text-sm">
+            {user ? `${user.firstName} ${user.lastName}` : "No User"}
           </span>
-          <span className="mt-0.5 block text-theme-xs text-gray-500 dark:text-gray-400">
-            randomuser@pimjo.com
+          <span className="mt-0.5 block text-xs text-[#344e41]">
+            {user?.email || "No email"}
           </span>
         </div>
 
-        <ul className="flex flex-col gap-1 pt-4 pb-3 border-b border-gray-200 dark:border-gray-800">
+        <ul className="flex flex-col gap-1 pt-4 pb-3 border-b border-[#a3b18a]">
           <li>
             <DropdownItem
               onItemClick={closeDropdown}
               tag="a"
               to="/profile"
-              className="flex items-center gap-3 px-3 py-2 font-medium text-gray-700 rounded-lg group text-theme-sm hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300"
+              className="flex items-center gap-3 px-3 py-2 font-medium text-[#344e41] rounded-lg text-sm hover:bg-[#dad7cd] hover:text-[#344e41]"
             >
               <svg
-                className="fill-gray-500 group-hover:fill-gray-700 dark:fill-gray-400 dark:group-hover:fill-gray-300"
+                className="fill-[#344e41] hover:fill-[#588157]"
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"
@@ -99,13 +121,12 @@ export default function UserDropdown() {
             </DropdownItem>
           </li>
         </ul>
-        {/* Changed Link to button with onClick handler */}
         <button
           onClick={handleSignOut}
-          className="flex items-center gap-3 px-3 py-2 mt-3 font-medium text-gray-700 rounded-lg group text-theme-sm hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300 w-full text-left"
+          className="flex items-center gap-3 px-3 py-2 mt-3 font-medium text-[#344e41] rounded-lg text-sm hover:bg-[#dad7cd] hover:text-[#344e41] w-full text-left"
         >
           <svg
-            className="fill-gray-500 group-hover:fill-gray-700 dark:group-hover:fill-gray-300"
+            className="fill-[#344e41] hover:fill-[#588157]"
             width="24"
             height="24"
             viewBox="0 0 24 24"
