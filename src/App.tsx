@@ -23,6 +23,7 @@ import FileInput from "./components/form/input/FileInput";
 import ProtectedRoute from "./ProtectedRoute";
 import NewPrediction from "./pages/YieldPrediction/NewPrediction";
 import PredictionDetail from "./pages/YieldPrediction/PredictionDetail";
+import FileInputExample from "./components/form/form-elements/FileInputExample";
 
 export default function App() {
   return (
@@ -65,7 +66,7 @@ export default function App() {
             <Route path="/compare-data" element={<BarChart />} />
 
             {/* Data upload */}
-            <Route path="/upload-csv" element={<FileInput />} />
+            <Route path="/upload-csv" element={<FileInputExample />} />
             <Route path="/manual-input" element={<FormElements />} />
           </Route>
 

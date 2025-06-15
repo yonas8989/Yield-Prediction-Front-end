@@ -252,7 +252,7 @@ const PastPrediction = () => {
                       {prediction.windSpeed.toFixed(1)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-[#344e41]">
-                      {prediction.predictedYield.toFixed(1)}
+                      {prediction.predictedYield}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-[#344e41]">
                       <button
