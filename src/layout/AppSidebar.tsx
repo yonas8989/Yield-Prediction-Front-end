@@ -60,7 +60,7 @@ const othersItems: NavItem[] = [
     name: "Account",
     subItems: [
       { name: "Profile", path: "/profile", pro: false },
-      { name: "Settings", path: "/settings", pro: false }
+      // { name: "Settings", path: "/settings", pro: false }
     ],
   }
 ];

@@ -42,7 +42,7 @@ export default function App() {
 
             {/* Others Page */}
             <Route path="/profile" element={<UserProfiles />} />
-            <Route path="/blank" element={<Blank />} />
+            {/* <Route path="/blank" element={<Blank />} /> */}
 
             {/* Forms */}
             <Route path="/form-elements" element={<FormElements />} />
